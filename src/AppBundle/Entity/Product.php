@@ -2,7 +2,9 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OneToMany;
 
 /**
  * Product
@@ -54,6 +56,14 @@ class Product
      * @ORM\Column(name="$quantity", type="integer")
      */
     private $quantity;
+    /**
+     * @OneToMany(targetEntity="AppBundle\Entity\Cart", mappedBy="products")
+     */
+    private $cart;
+
+    public function __construct() {
+        $this->cart = new ArrayCollection();
+    }
 
     /**
      * @return Category
@@ -152,6 +162,22 @@ class Product
     public function setQuantity(int $quantity)
     {
         $this->quantity = $quantity;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCart()
+    {
+        return $this->cart;
+    }
+
+    /**
+     * @param mixed $cart
+     */
+    public function setCart($cart)
+    {
+        $this->cart = $cart;
     }
 
 

@@ -3,6 +3,9 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToOne;
 
 /**
  * Cart
@@ -28,21 +31,19 @@ class Cart
      */
     private $totalPrice;
 
+
     /**
-     * @ORM\OneToOne(targetEntity="User", inversedBy="cart")
+     * One Cart has One Customer.
+     * @OneToOne(targetEntity="AppBundle\Entity\User", inversedBy="cart")
+
      */
     private $user;
 
-    /** @ORM\OneToMany(targetEntity="Shipping", mappedBy="cart") */
-    protected $cartProducts;
-
     /**
-     * Constructor
+     * @ManyToOne(targetEntity="Product", inversedBy="cart")
+     * @JoinColumn(name="product_id", referencedColumnName="id")
      */
-    public function __construct()
-    {
-        $this->cartProducts = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+    private $products;
 
     /**
      * Get id
@@ -77,5 +78,39 @@ class Cart
     {
         return $this->totalPrice;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProducts()
+    {
+        return $this->products;
+    }
+
+    /**
+     * @param mixed $products
+     */
+    public function setProducts($products)
+    {
+        $this->products = $products;
+    }
+
+
 }
 

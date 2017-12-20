@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OneToOne;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -64,6 +65,12 @@ class User implements UserInterface, \Serializable
      * @var Collection|Role[]
      */
     private $roles;
+
+    public function __construct()
+    {
+        $this->roles = new ArrayCollection();
+    }
+
     /**
      * @var integer
      *
@@ -71,13 +78,12 @@ class User implements UserInterface, \Serializable
      */
     private $cash;
 
+
     /**
-     * User constructor.
+     * One Customer has One Cart.
+     * @OneToOne(targetEntity="Cart", mappedBy="user")
      */
-    public function __construct()
-    {
-        $this->roles = new ArrayCollection();
-    }
+    private $cart;
 
 
     /**
@@ -297,6 +303,22 @@ class User implements UserInterface, \Serializable
     public function setCash($cash)
     {
         $this->cash = $cash;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCart()
+    {
+        return $this->cart;
+    }
+
+    /**
+     * @param mixed $cart
+     */
+    public function setCart($cart)
+    {
+        $this->cart = $cart;
     }
 }
 
